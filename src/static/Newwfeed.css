@@ -1,0 +1,102 @@
+
+/* header */
+
+#textarea{
+    border: none !important;
+    font-size: 2rem;
+    width: 100%;
+}
+
+#mainColumn{
+    min-width: 350px;
+}
+
+#header, #mainTweet{
+    background-color: #fff;
+    border: 0.5px solid rgb(246,248,250);
+} 
+
+#mainTweet {
+    min-height: 7rem;
+    padding-bottom: 1rem;
+    background-color: #e6ecf0;
+}
+
+#avatar, #tweetArea {
+    background-color: #fff;
+}
+
+#remainingChars {
+    font-size: .9rem;
+}
+
+#leftButtonMainTweet :hover {
+    background-color: rgb(223, 236, 247);
+    color: rgb(155, 190, 218);
+    padding: 7px;
+    border-radius: 50%;
+}
+
+
+/* TweetTemplate inside Feed - Hai */
+
+
+#tweetTemplate, .tweet {
+    background-color: #fff;
+    min-height: 7rem; 
+    border: 0.7px solid rgb(246,248,250);
+    border-top: none;
+}
+
+.retweet {
+    background-color: #fff;
+    min-height: 5rem; 
+    border: 0.7px solid rgb(246,248,250);
+}
+
+/* this removes resize button at the right corner of the text area */
+textarea {
+    resize: none;
+}
+/* this removes ouline box when text area in focus */
+textarea :focus {
+    outline: none;
+}
+
+
+.faButton {
+    text-decoration-style: none;
+    color: #949494 !important;
+}
+
+.faButton > i {
+    padding: 10px;
+}
+
+.commentBtn :hover {
+    background-color: rgb(223, 236, 247);
+    color: rgb(155, 190, 218);
+}
+
+.retweetBtn :hover {
+    background-color: rgb(223, 247, 227);
+    color: rgb(143, 199, 152);
+    border-radius: 50%;
+}
+
+.likeBtn :hover {
+    background-color: rgb(247, 223, 223);
+    color: rgb(190, 128, 128);
+}
+
+.shareBtn :hover {
+    background-color: rgb(223, 236, 247);
+    color: rgb(155, 190, 218);
+}
+
+.expandBtn :hover{
+    background-color: rgb(223, 236, 247);
+    color: rgb(155, 190, 218);
+}
+
+/* END */

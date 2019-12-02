@@ -1,0 +1,32 @@
+#navbar {
+  background-color: rgba(29,161,242,1.00) !important;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1000;
+}
+#buttonSearch {
+    color: black;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+}
+#buttonSearch:hover {
+    background-color: rgba(29,161,242,1.00);
+    color: white;
+}
+.brand{
+    color: white;
+}
+#searchInput{
+    width: 40vw;
+}
+.nav-link{
+    color: white;
+    font-weight: 900;
+}
+.nav-link:hover {
+    font-weight: 900;
+    color: white;
+    font-size: larger;
+}
+
