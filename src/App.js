@@ -3,7 +3,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 
-console.log('Environment: ', process.env.REACT_APP_URL)
 
 //import router
 import {
@@ -22,6 +21,7 @@ import Signup from './components/Account/Signup';
 import Forget from './components/Account/Forget';
 import Reset from './components/Account/Reset';
 
+console.log('Environment: ', process.env.REACT_APP_URL)
 
 function App(props) {
   const [isLogin, setIsLogin] = useState(false)
@@ -54,7 +54,7 @@ function App(props) {
   }, [token])
   
 
-
+  
   console.log('token', token,'url:', process.env.REACT_APP_URL)
   // Mouting------------------------
   return (
