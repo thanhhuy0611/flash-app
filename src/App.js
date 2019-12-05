@@ -3,6 +3,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 
+console.log('Environment: ', process.env.REACT_APP_URL)
+
 //import router
 import {
   BrowserRouter as Router,
