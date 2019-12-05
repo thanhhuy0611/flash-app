@@ -23,39 +23,47 @@ import Reset from './components/Account/Reset';
 
 console.log('Environment: ', process.env.REACT_APP_URL)
 
-function App(props) {
+function App() {
+
+  const [currentUser, setCurrentUser] = useState(null)
   const [isLogin, setIsLogin] = useState(false)
-  const existingToken = sessionStorage.getItem("token");
-  const accessToken =
+
+
+
+  const getCurrentUser = async () => {
+    const existingToken = sessionStorage.getItem("token");
+    const accessToken =
       window.location.search.split("=")[0] === "?api_key"
         ? window.location.search.split("=")[1]
         : null;
-  const token = existingToken || accessToken
-  const [currentUser, setCurrentUser] = useState(null)
-  const getCurrentUser = async()=>{
-    const res = await fetch(process.env.REACT_APP_URL+'currentuser',{
-      method :'GET',
-      headers:{
-        'Content-Type':'application/json',
+    const token = existingToken || accessToken
+
+    const res = await fetch(process.env.REACT_APP_URL + 'currentuser', {
+      headers: {
+        'Content-Type': 'application/json',
         Authorization: `Token ${token}`
       }
     })
-    const data = await res.json();
-    setCurrentUser(data)
-  }
-    
-  
-  useEffect(() => {
-    if (currentUser) {
+    if (res.ok) {
+      const data = await res.json();
       sessionStorage.setItem('token', token)
+      setCurrentUser(data)
       setIsLogin(true)
-      getCurrentUser()
+    } else {
+      sessionStorage.clear('token')
+      setIsLogin(false)
+      setCurrentUser(null)
+      alert("Please login again")
     }
-  }, [token])
-  
+  }
 
-  
-  console.log('token', token,'url:', process.env.REACT_APP_URL)
+
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+
+
   // Mouting------------------------
   return (
     <>
@@ -67,9 +75,9 @@ function App(props) {
             currentUser={currentUser}
           />
           <Switch>
-            <Route 
-               exact path='/' 
-              render={() => <Home  
+            <Route
+              exact path='/'
+              render={() => <Home
               />}
             />
 
@@ -78,28 +86,28 @@ function App(props) {
         :
         <Router>
           <Switch>
-            <Route 
-              exact path='/' 
-              render={() => <Login  
+            <Route
+              exact path='/'
+              render={() => <Login
                 isLogin={isLogin}
-                setIsLogin={setIsLogin} 
+                setIsLogin={setIsLogin}
               />}
             />
-            <Route 
-              path='/signup' 
-              render={() => <Signup  
+            <Route
+              path='/signup'
+              render={() => <Signup
                 isLogin={isLogin}
-                setIsLogin={setIsLogin} 
+                setIsLogin={setIsLogin}
               />}
             />
-            <Route 
-              path='/forget' 
-              render={() => <Forget  
+            <Route
+              path='/forget'
+              render={() => <Forget
               />}
             />
-            <Route 
-              path='/reset' 
-              render={() => <Reset  
+            <Route
+              path='/reset'
+              render={() => <Reset
                 isLogin={isLogin}
                 setIsLogin={setIsLogin}
               />}
