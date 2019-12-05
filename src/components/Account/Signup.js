@@ -52,6 +52,8 @@ export default function Signup(props) {
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                <button className="mt-2 btn btn-primary btn-block" onClick={()=>window.location.replace(process.env.REACT_APP_URL +'login/facebook')}>Login with Facebook</button>
+
                 <p className="forgot-password text-right">
                     Already registered <a href="/">sign in?</a>
                 </p>

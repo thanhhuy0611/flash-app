@@ -80,6 +80,10 @@ body, html, .App, #root, .auth-wrapper {
     background-color: #fff;
     padding: 6% 4% 8% 4%;
     border-radius: 15px;
+    background-image: url(../image/logo-flash.png);
+    background-repeat: no-repeat;
+    background-size: 30%;
+    background-position: right top;
 }
 #login-table{
     min-height: 100vh;

@@ -37,7 +37,7 @@ export default function Newfeed() {
                             <i className="far fa-smile" />
                         </div>
                         <div id="rightButtonMainTweet" className="col">
-                            <span id="remainingChars">{130- content.length} characters remaining</span>
+                            <span id="remainingChars">{130- content.length>=0? `${130- content.length} characters remaining`:<span>'No more than 130 characters'</span>}</span>
                             <button disabled={content.length>130 || !content} id="tweetButton" className="btn btn-primary ml-4" >Post</button>
                         </div>
                     </div>

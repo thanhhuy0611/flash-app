@@ -42,7 +42,7 @@ export default function NavBar(props) {
                         </Form>
                     </Nav>
                     <Form inline>
-                        <Nav.Link href="#home">User name</Nav.Link>
+                        <Nav.Link href="#home">{props.currentUser && props.currentUser.user_name}</Nav.Link>
                         <Nav.Link href="#" onClick={()=>doLogout()}>Logout</Nav.Link>
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
