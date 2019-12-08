@@ -42,7 +42,7 @@ export default function Login(props) {
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
-                <button className="mt-2 btn btn-primary btn-block" onClick={()=>window.location.replace(process.env.REACT_APP_URL +'login/facebook')}>Login with Facebook</button>
+                <button className="mt-2 btn btn-primary btn-block" onClick={()=>window.location.replace(process.env.REACT_APP_URL +'login/facebook/authorized')}>Login with Facebook</button>
                 <p className="forgot-password text-right">
                     Forgot <a href="/forget">password?</a>
                 </p>

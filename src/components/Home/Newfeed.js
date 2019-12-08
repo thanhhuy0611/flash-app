@@ -103,7 +103,7 @@ export default function Newfeed(props) {
     useEffect(() => {
         getPosts()
     }, [])
-    console.log('posts', posts)
+    // console.log('posts', posts)
     return (
         <>
             <div id="mainColumn" className="col-md-9 col-lg-6 px-0">
@@ -186,11 +186,11 @@ export default function Newfeed(props) {
                                                 <Popover.Title as="h3">Options</Popover.Title>
                                                 <Popover.Content id={`popover-content`}>
                                                     <ButtonGroup vertical>
-                                                        <Button disabled={props.currentUser.user_id === post.user.id ? false : true} onClick={() => { setPassPost(post);setModalIsDelete(false); setShow(true);setContentEdit(post.content);setImageUrlEdit(post.image_url)}}
+                                                        <Button disabled={props.currentUser?(props.currentUser.user_id === post.user.id ? false : true):true} onClick={() => { setPassPost(post);setModalIsDelete(false); setShow(true);setContentEdit(post.content);setImageUrlEdit(post.image_url)}}
                                                             id={`popover-button`} variant="outline-info">
                                                             <strong>Edit this post</strong>
                                                         </Button>
-                                                        <Button disabled={props.currentUser.user_id === post.user.id ? false : true} onClick={() => { setPassPost(post);setModalIsDelete(true); setShow(true)}}
+                                                        <Button disabled={props.currentUser?(props.currentUser.user_id === post.user.id ? false : true):true} onClick={() => { setPassPost(post);setModalIsDelete(true); setShow(true)}}
                                                             id={`popover-button`} variant="outline-danger">
                                                             <strong>Delete this post</strong>
                                                         </Button>

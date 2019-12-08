@@ -1,6 +1,8 @@
-import React from 'react'
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button, InputGroup } from 'react-bootstrap';
-import '../static/NavBar.css'
+import React from 'react';
+import {
+    Navbar, Nav, NavDropdown, Form, FormControl, Button, InputGroup
+} from "react-bootstrap";
+import '../static/NavBar.css';
 
 export default function NavBar(props) {
     const doLogout = async() => {

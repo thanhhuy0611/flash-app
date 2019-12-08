@@ -27,23 +27,21 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(null)
   const [isLogin, setIsLogin] = useState(false)
-
+  const existingToken = sessionStorage.getItem("token");
+  const accessToken =
+    window.location.search.split("=")[0] === "?api_key"
+      ? window.location.search.split("=")[1]
+      : null;
+  const token = existingToken || accessToken
   const getCurrentUser = async () => {
-    const existingToken = sessionStorage.getItem("token");
-    const accessToken =
-      window.location.search.split("=")[0] === "?api_key"
-        ? window.location.search.split("=")[1]
-        : null;
-    const token = existingToken || accessToken
-
     const res = await fetch(process.env.REACT_APP_URL + 'currentuser', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${token}`
       }
     })
+    const data = await res.json()
     if (res.ok) {
-      const data = await res.json();
       sessionStorage.setItem('token', token)
       setCurrentUser(data)
       setIsLogin(true)
@@ -55,10 +53,12 @@ function App() {
     }
   }
 
-
   useEffect(() => {
     getCurrentUser()
   }, [])
+  useEffect(() => {
+    if(isLogin) {getCurrentUser()}
+  }, [isLogin])
 
 
 
