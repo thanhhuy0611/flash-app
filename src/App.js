@@ -28,8 +28,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [isLogin, setIsLogin] = useState(false)
 
-
-
   const getCurrentUser = async () => {
     const existingToken = sessionStorage.getItem("token");
     const accessToken =
@@ -78,6 +76,7 @@ function App() {
             <Route
               exact path='/'
               render={() => <Home
+                currentUser={currentUser}
               />}
             />
 
