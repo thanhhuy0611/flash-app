@@ -13,7 +13,7 @@ export default function Newfeed(props) {
     const [content, setContent] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
     const token = sessionStorage.getItem("token")
-    const [posts, setPosts] = useState(null)
+    const [posts, setPosts] = useState([])
  
     const doPost = async (e) => {
         const res = await fetch(process.env.REACT_APP_URL + 'createpost', {
@@ -29,10 +29,10 @@ export default function Newfeed(props) {
         })
         if (res.ok) {
             getPosts()
-            setImageUrl(null)
-            setContent('')
             document.getElementById("textarea").value = ""
             document.getElementById("image-url").value = ""
+            setImageUrl(null)
+            setContent('')
         }
     }
     // list posts
@@ -49,14 +49,13 @@ export default function Newfeed(props) {
         if (res.ok) {
             const data = await res.json();
             setPosts(data.posts)
-            console.log('get postlist success',data)
+            console.log('success',data)
         } else { console.log('failed to get postlist')}
     }
     useEffect(() => {
         getPosts()
     }, [])
 
-    // console.log('posts', posts)
     return (
         <>
             <div id="mainColumn" className="col-md-9 col-lg-6 px-0">
@@ -107,6 +106,7 @@ export default function Newfeed(props) {
                 {/* List post*/}
                 {posts && posts.map((post) => {
                     return <Post 
+                        key = {post.post_id}
                         post={post} 
                         token={token}
                         getPosts={getPosts}

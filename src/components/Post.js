@@ -9,6 +9,7 @@ import {
     ButtonGroup,
     Modal,
 } from "react-bootstrap";
+import moment from 'moment'
 
 export default function Post(props) {
     const [post, setPost] = useState(props.post)
@@ -44,9 +45,10 @@ export default function Post(props) {
             } else { setLiked(false) }
         }
     }
+
     useEffect(() => {
         checkLiked()
-    }, [])
+    }, [props.currentUser])
 
     const likePost = async (id) => {
         const res = await fetch(process.env.REACT_APP_URL + 'likepost', {
@@ -95,22 +97,23 @@ export default function Post(props) {
             },
             body: JSON.stringify({ 'id': id })
         })
+
         const data = await res.json()
         if (data.success) {
             console.log('delete success post id:', id)
             props.getPosts()
+            setPost(props.post)
         } else {
             console.log(data.status)
         }
     }
-
     return (
         <>
             <div className="row rounded-lg container-fluid p-0 m-0 mb-1 post">
                 <div className="row m-0 mb-1 container-fluid p-0">
                     <div id="postHeader" className="col-11  mt-1">
                         <img className="avatarPost" src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
-                        <span><strong>{post.user.name}</strong></span> • <span style={{ fontWeight: '200', fontSize: '14px' }}>{post.created_on}</span>
+                        <span><strong>{post.user.name}</strong></span> • <span style={{ fontWeight: '200', fontSize: '14px' }}>{moment(post.created_on).fromNow()}</span>
                     </div>
                     <div className="col-1 p-0 text-right text-center mt-2">
                         {/* Modal ------------------------------------------- */}
@@ -170,12 +173,12 @@ export default function Post(props) {
                         <div className="mt-1 col-12" id='postStatistic'>
                             <div className="text-left">
                                 <a href="#" onClick={(e) => e.preventDefault()}>
-                                    {post.likes.count === 0 ? '' : <p style={{marginBottom:'0px'}}>{post.likes.count} <i className="far fa-thumbs-up ml-1"></i></p>}
+                                    {post.likes.count === 0 ? '' : <p style={{ marginBottom: '0px' }}>{post.likes.count} <i className="far fa-thumbs-up ml-1"></i></p>}
                                 </a>
                             </div>
                             <div className="text-left">
                                 <a href='#'>
-                                    {post.comment.count === 0 ? '' : <p style={{marginBottom:'0px'}}>{post.comment.count} <i className="far fa-comment-alt ml-1"></i></p>}
+                                    {post.comment.count === 0 ? '' : <p style={{ marginBottom: '0px' }}>{post.comment.count} <i className="far fa-comment-alt ml-1"></i></p>}
                                 </a>
                             </div>
                         </div>
@@ -195,12 +198,11 @@ export default function Post(props) {
                         </div>
                         <Accordion.Collapse eventKey="0">
                             <div class="input-group mb-3" id="commentInput">
-                                {/* <div className="input-group-prepend col-2"> */}
-                                    <img className="avatarPost" style={{maxHeight:"42px"}} src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
-                                {/* </div> */}
-                                {/* <div className="col-10"> */}
-                                    <TextareaAutosize id="commentTextarea" placeholder="Comment here" style={{ minHeight: 20 }} />
-                                {/* </div> */}
+                                <img className="avatarPost" style={{ maxHeight: "42px" }} src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
+                                <TextareaAutosize id="commentTextarea" placeholder="Comment here" style={{ minHeight: 20 }} />
+                                <div style={{ display: "flex", alignItems: "flex-end" }}>
+                                    <button className="btn  text-secondary font-weight-bold" id="comment-button"><i class="far fa-paper-plane"></i></button>
+                                </div>
                             </div>
                         </Accordion.Collapse>
                     </Accordion>

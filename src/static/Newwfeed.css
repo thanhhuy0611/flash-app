@@ -143,12 +143,22 @@ hr {
 }
 #commentInput > textarea{
     padding-left: 15px!important;
-    padding-right: 15px!important;
+    padding-right: 45px!important;
     padding-top: 8px!important;
     padding-bottom: 8px!important;
 }
 #commentInput{
     display: flex;
     flex-wrap: nowrap
+}
+#comment-button{
+    position: relative;
+    right: 40px;
+    bottom:5px;
+    border: none;
+    border-radius: 50%;
+}
+#comment-button:hover{
+    color:#007bff!important
 }
 /* END */
