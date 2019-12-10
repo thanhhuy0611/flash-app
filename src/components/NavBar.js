@@ -18,6 +18,7 @@ export default function NavBar(props) {
         console.log('data', data)
         if (data.success) {
             props.setIsLogin(false)
+            props.setCurrentUser(null)
             sessionStorage.clear(token)
         }
         return

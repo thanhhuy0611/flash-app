@@ -24,7 +24,6 @@ import Reset from './components/Account/Reset';
 console.log('Environment: ', process.env.REACT_APP_URL)
 
 function App() {
-
   const [currentUser, setCurrentUser] = useState(null)
   const [isLogin, setIsLogin] = useState(false)
   const existingToken = sessionStorage.getItem("token");
@@ -55,6 +54,7 @@ function App() {
 
   useEffect(() => {
     getCurrentUser()
+    window.history.replaceState({}, document.title, "/")
   }, [])
   useEffect(() => {
     if(isLogin) {getCurrentUser()}
@@ -71,6 +71,7 @@ function App() {
             isLogin={isLogin}
             setIsLogin={setIsLogin}
             currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
           />
           <Switch>
             <Route

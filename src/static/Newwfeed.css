@@ -119,6 +119,9 @@ textarea :focus {
     display: flex;
     justify-content: space-around;
 }
+.clicked{
+    color: #007bff
+}
 hr {
     display: block;
     height: 0px;
@@ -128,5 +131,24 @@ hr {
     margin-top: 6px;
     margin-bottom: 6px;
     
+}
+#postStatisticText > p{
+    margin-bottom: 0.5em!important;
+}
+#commentTextarea{
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
+    margin-left: 3px;
+}
+#commentInput > textarea{
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+    padding-top: 8px!important;
+    padding-bottom: 8px!important;
+}
+#commentInput{
+    display: flex;
+    flex-wrap: nowrap
 }
 /* END */
