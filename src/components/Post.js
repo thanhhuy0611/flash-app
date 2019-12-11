@@ -11,6 +11,9 @@ import {
 } from "react-bootstrap";
 import moment from 'moment'
 
+// import component
+import Comment from './Comment'
+
 export default function Post(props) {
     const [post, setPost] = useState(props.post)
     const [passPost, setPassPost] = useState()
@@ -19,6 +22,8 @@ export default function Post(props) {
     const [show, setShow] = useState(false);
     const [modalIsDelete, setModalIsDelete] = useState(true)
     const [liked, setLiked] = useState(false)
+    const [commentInput, setCommentInput] = useState('')
+    const [comments, setComments] = useState([])
 
     const getSinglePost = async () => {
         const res = await fetch(process.env.REACT_APP_URL + 'postlist', {
@@ -97,7 +102,6 @@ export default function Post(props) {
             },
             body: JSON.stringify({ 'id': id })
         })
-
         const data = await res.json()
         if (data.success) {
             console.log('delete success post id:', id)
@@ -106,6 +110,46 @@ export default function Post(props) {
         } else {
             console.log(data.status)
         }
+    }
+    const getComments = async () => {
+        const res = await fetch(process.env.REACT_APP_URL + "getcomment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${props.token}`
+            },
+            body: JSON.stringify({
+                "post_id": post.post_id,
+                "comment_id": "list"
+            })
+        })
+        const data = await res.json()
+        if (data.success) {
+            setComments(data.comments)
+            console.log('success to comment!', data)
+        }
+        else { console.log('failed to comment:', data) }
+    }
+    const doComment = async () => {
+        const res = await fetch(process.env.REACT_APP_URL + "createcomment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Token ${props.token}`
+            },
+            body: JSON.stringify({
+                "post_id": post.post_id,
+                "content": commentInput
+            })
+        })
+        const data = await res.json()
+        if (data.success) {
+            document.getElementById("commentTextarea").value = ""
+            getComments()
+            setCommentInput('')
+            getSinglePost()
+        }
+        else { console.log('failed to comment:', data) }
     }
     return (
         <>
@@ -163,7 +207,7 @@ export default function Post(props) {
                     </div>
                 </div>
                 <div id="postBody" className="row m-0 mb-1 container-fluid">
-                    <p className="text-left mt-2 ml-2 mr-2">
+                    <p className="text-left mt-2 ml-2 mr-2 col-12">
                         {post.content}
                     </p>
                     {post.image_url && <img id='postImage' src={post.image_url} alt="postImage"></img>}
@@ -173,12 +217,13 @@ export default function Post(props) {
                         <div className="mt-1 col-12" id='postStatistic'>
                             <div className="text-left">
                                 <a href="#" onClick={(e) => e.preventDefault()}>
-                                    {post.likes.count === 0 ? '' : <p style={{ marginBottom: '0px' }}>{post.likes.count} <i className="far fa-thumbs-up ml-1"></i></p>}
+                                    {post.likes.count === 0 ? '' :
+                                        <p style={{ marginBottom: '0px' }}>{post.likes.count} <i className="far fa-thumbs-up ml-1"></i></p>}
                                 </a>
                             </div>
                             <div className="text-left">
-                                <a href='#'>
-                                    {post.comment.count === 0 ? '' : <p style={{ marginBottom: '0px' }}>{post.comment.count} <i className="far fa-comment-alt ml-1"></i></p>}
+                                <a href='#' onClick={(e) => {e.preventDefault();getComments()}}>
+                                    {post.comment.count === 0 ? '' : <Accordion.Toggle as={Button} variant="link" eventKey="0"><p style={{ marginBottom: '0px' }}>{post.comment.count} <i className="far fa-comment-alt ml-1"></i></p></Accordion.Toggle>}
                                 </a>
                             </div>
                         </div>
@@ -188,22 +233,30 @@ export default function Post(props) {
                                 <span className={liked ? "clicked" : "tttt"}><i className="far fa-thumbs-up mr-1"></i> Like</span>
                             </button>
                             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                <button className="btn btn-outline-light text-secondary font-weight-bold">
+                                <button onClick={() => getComments()} className="btn btn-outline-light text-secondary font-weight-bold">
                                     <i className="far fa-comment-alt mr-1"></i> Comment
-                            </button>
+                                </button>
                             </Accordion.Toggle>
                             <button className="btn btn-outline-light text-secondary font-weight-bold">
                                 <i className="far fa-share-square mr-1"></i> Share
-                                    </button>
+                            </button>
                         </div>
                         <Accordion.Collapse eventKey="0">
-                            <div class="input-group mb-3" id="commentInput">
-                                <img className="avatarPost" style={{ maxHeight: "42px" }} src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
-                                <TextareaAutosize id="commentTextarea" placeholder="Comment here" style={{ minHeight: 20 }} />
-                                <div style={{ display: "flex", alignItems: "flex-end" }}>
-                                    <button className="btn  text-secondary font-weight-bold" id="comment-button"><i class="far fa-paper-plane"></i></button>
+                            <>
+                                <div class="input-group mb-3" id="commentInput">
+                                    <img className="avatarPost" style={{ maxHeight: "42px" }} src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
+                                    <TextareaAutosize onChange={e => setCommentInput(e.target.value)} id="commentTextarea" placeholder="Comment here" style={{ minHeight: 20 }} />
+                                    <div style={{ display: "flex", alignItems: "flex-end", width: 0 }}>
+                                        <button onClick={() => doComment()} className="btn  text-secondary font-weight-bold" id="comment-button"><i class="far fa-paper-plane"></i></button>
+                                    </div>
                                 </div>
-                            </div>
+                                {comments.map((comment) => {
+                                    return <Comment
+                                        key={comment.comment_id}
+                                        comment={comment}
+                                    />
+                                })}
+                            </>
                         </Accordion.Collapse>
                     </Accordion>
                 </div>
