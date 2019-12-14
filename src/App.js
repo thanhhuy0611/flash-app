@@ -9,7 +9,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  withRouter,
 } from "react-router-dom";
 
 
@@ -54,10 +53,10 @@ function App() {
 
   useEffect(() => {
     getCurrentUser()
-    window.history.replaceState({}, document.title, "/")
+    // window.history.replaceState({}, document.title, "/")
   }, [])
   useEffect(() => {
-    if(isLogin) {getCurrentUser()}
+    if (isLogin) { getCurrentUser() }
   }, [isLogin])
 
 
@@ -65,25 +64,7 @@ function App() {
   // Mouting------------------------
   return (
     <>
-      {isLogin ?
-        <Router>
-          <NavBar
-            isLogin={isLogin}
-            setIsLogin={setIsLogin}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-          />
-          <Switch>
-            <Route
-              exact path='/'
-              render={() => <Home
-                currentUser={currentUser}
-              />}
-            />
-
-          </Switch>
-        </Router>
-        :
+      {!isLogin ?
         <Router>
           <Switch>
             <Route
@@ -114,6 +95,26 @@ function App() {
             />
           </Switch>
         </Router>
+        :
+        <Router>
+          <NavBar
+            isLogin={isLogin}
+            setIsLogin={setIsLogin}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+          <Switch>
+            <Route
+              path='/'
+              render={() => <Home
+                currentUser={currentUser}
+              />}
+            />
+
+          </Switch>
+        </Router>
+
+
       }
 
     </>

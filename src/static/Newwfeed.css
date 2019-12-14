@@ -12,7 +12,6 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 10px;
 }
 #inputArea > #text{
     font-size: 20px;
@@ -161,7 +160,8 @@ hr {
     color:#007bff!important
 }
 #commentRow{
-    word-wrap: break-word
+    word-wrap: break-word;
+    margin-bottom: 0!important;
 }
 #postBody{
     word-wrap: break-word
@@ -169,7 +169,7 @@ hr {
 #comment-content{
     background-color: #e6ecf0;
     border-radius: 20px;
-    margin-left: 40px;
+    margin-left: 10px;
     margin-right: 10px;
     padding: 5px 15px 5px 15px;
     max-width: fit-content;

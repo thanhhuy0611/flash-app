@@ -10,11 +10,14 @@ import {
     Modal,
 } from "react-bootstrap";
 import moment from 'moment'
-
+import {
+    useHistory
+  } from "react-router-dom";
 // import component
 import Comment from './Comment'
 
 export default function Post(props) {
+    const history = useHistory()
     const [post, setPost] = useState(props.post)
     const [passPost, setPassPost] = useState()
     const [contentEdit, setContentEdit] = useState('')
@@ -156,8 +159,9 @@ export default function Post(props) {
             <div className="row rounded-lg container-fluid p-0 m-0 mb-1 post">
                 <div className="row m-0 mb-1 container-fluid p-0">
                     <div id="postHeader" className="col-11  mt-1">
-                        <img className="avatarPost" src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
-                        <span><strong>{post.user.name}</strong></span> • <span style={{ fontWeight: '200', fontSize: '14px' }}>{moment(post.created_on).fromNow()}</span>
+                        <img className="avatarPost" src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="avatar-img" />
+                        <span style={{marginLeft:"5px"}}><strong><a href="#" onClick={(e) => {e.preventDefault();history.push(`/user/${post.user.id}`)}}>{post.user.name}</a></strong></span>
+                         • <span style={{ fontWeight: '200', fontSize: '14px' }}>{moment(post.created_on).fromNow()}</span>
                     </div>
                     <div className="col-1 p-0 text-right text-center mt-2">
                         {/* Modal ------------------------------------------- */}
@@ -230,7 +234,7 @@ export default function Post(props) {
                         <div className='col-12'><hr /></div>
                         <div className="mt-1 col-12" id='postReact'>
                             <button onClick={() => likePost(post.post_id)} className="btn btn-outline-light text-secondary font-weight-bold">
-                                <span className={liked ? "clicked" : "tttt"}><i className="far fa-thumbs-up mr-1"></i> Like</span>
+                                <span className={liked ? "clicked" : ""}><i className="far fa-thumbs-up mr-1"></i> Like</span>
                             </button>
                             <Accordion.Toggle as={Button} variant="link" eventKey="0">
                                 <button onClick={() => getComments()} className="btn btn-outline-light text-secondary font-weight-bold">
@@ -244,7 +248,7 @@ export default function Post(props) {
                         <Accordion.Collapse eventKey="0">
                             <>
                                 <div class="input-group mb-3" id="commentInput">
-                                    <img className="avatarPost" style={{ maxHeight: "42px" }} src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar-img" />
+                                    <img className="avatarPost" style={{ maxHeight: "42px" }} src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="avatar-img" />
                                     <TextareaAutosize onChange={e => setCommentInput(e.target.value)} id="commentTextarea" placeholder="Comment here" style={{ minHeight: 20 }} />
                                     <div style={{ display: "flex", alignItems: "flex-end", width: 0 }}>
                                         <button onClick={() => doComment()} className="btn  text-secondary font-weight-bold" id="comment-button"><i class="far fa-paper-plane"></i></button>
@@ -254,6 +258,9 @@ export default function Post(props) {
                                     return <Comment
                                         key={comment.comment_id}
                                         comment={comment}
+                                        getComments={getComments}
+                                        token={props.token}
+                                        currentUser={props.currentUser}
                                     />
                                 })}
                             </>
@@ -290,7 +297,7 @@ function MyModal(props) {
                         <Modal.Body>
                             <div id="createPost" className="row mx-0 shadow-bottom">
                                 <div id="avatar" className="col-2 rounded-lg">
-                                    <img src="https://banner2.cleanpng.com/20180326/jxq/kisspng-the-flash-logo-wall-decal-wallpaper-flash-5ab89520bfea88.3799903215220462407861.jpg" alt="avatar" />
+                                    <img src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="avatar" />
                                 </div>
                                 <div id="createPostArea" className="col-10 rounded-lg">
                                     <Accordion>

@@ -4,6 +4,9 @@
 
 
 /* left side menu */
+#leftColHide{
+    z-index: -1;
+}
 @media screen and (max-width: 768px){
     #leftSideMenu {
         border: 2px white solid;

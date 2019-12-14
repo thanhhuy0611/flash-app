@@ -1,0 +1,29 @@
+#banner{
+    background-image: url(http://healthtipsdiy.com/pngs/linkedin_background_photo/linkedin_background_photo_2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#avatarProfile > img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+#avatarProfile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#nameProfile{
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+}

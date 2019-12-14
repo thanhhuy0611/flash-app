@@ -7,14 +7,19 @@ import {
     Button,
 } from "react-bootstrap";
 
+import {
+    useParams, useHistory
+} from "react-router-dom";
 import Post from '../Post'
 
-export default function Newfeed(props) {
+export default function Search(props) {
+    const { key } = useParams()
+    const history = useHistory()
+    const token = sessionStorage.getItem("token")
     const [content, setContent] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
-    const token = sessionStorage.getItem("token")
     const [posts, setPosts] = useState([])
- 
+    
     const doPost = async (e) => {
         const res = await fetch(process.env.REACT_APP_URL + 'createpost', {
             method: 'POST',
@@ -35,8 +40,7 @@ export default function Newfeed(props) {
             setContent('')
         }
     }
-    // list posts
- 
+
     const getPosts = async () => {
         const res = await fetch(process.env.REACT_APP_URL + 'postlist', {
             method:"POST",
@@ -52,12 +56,31 @@ export default function Newfeed(props) {
         if (res.ok) {
             const data = await res.json();
             setPosts(data.posts)
+            history.push('/')
             console.log('success',data)
         } else { console.log('failed to get postlist')}
     }
+    // list posts
+    const doSearch = async()=>{
+        const res = await fetch(process.env.REACT_APP_URL + 'search',{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify({"key":key})
+        })
+        const data = await res.json()
+        if (data.success) {
+            setPosts(data.posts)
+            console.log('success',data)
+        } 
+        else console.log('failed search')
+    }
+
     useEffect(() => {
-        getPosts()
-    }, [])
+        doSearch()
+    }, [key])
 
     return (
         <>
