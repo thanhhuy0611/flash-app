@@ -69,7 +69,15 @@
 .searchBar {
     border-radius: 15px;
 }
-
+.rightFooter{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.rightFooter > li{
+    margin-top: 10px;
+}
 .trend {
     margin-top: 2%;
     margin-bottom: 6%;

@@ -6,21 +6,21 @@ import {
     Accordion,
     Button,
 } from "react-bootstrap";
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-
+import {
+    useParams, useHistory
+} from "react-router-dom";
 import Post from '../Post'
+
+import { FadeLoader } from 'react-spinners';
 import { css } from '@emotion/core';
-import { FadeLoader, BeatLoader } from 'react-spinners';
-
-
 const override = css`
     display: block;
     margin: 0 auto;
     border-color: red;
 `;
 
-export default function Newfeed(props) {
+export default function PostFollowing(props) {
+    const history = useHistory()
     const [content, setContent] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
     const token = sessionStorage.getItem("token")
@@ -40,6 +40,7 @@ export default function Newfeed(props) {
             })
         })
         if (res.ok) {
+            history.push('/')
             getPosts()
             document.getElementById("textarea").value = ""
             document.getElementById("image-url").value = ""
@@ -48,50 +49,26 @@ export default function Newfeed(props) {
         }
     }
     // list posts
-
+ 
     const getPosts = async () => {
         setLoading(true)
-        const res = await fetch(process.env.REACT_APP_URL + 'postlist', {
-            method: "POST",
+        const res = await fetch(process.env.REACT_APP_URL + 'post/following', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
-            },
-            body: JSON.stringify({
-                "post_id": "list",
-                "user_id": null
-            })
+            }
         })
         if (res.ok) {
             const data = await res.json();
-            setPosts(data.posts)
+            const posts = [].concat.apply([],data.posts)
+            setPosts(posts)
+            console.log('success',posts)
             setLoading(false)
-            console.log('success', data)
-        } else { console.log('failed to get postlist') }
+        } else { console.log('failed to get postlist')}
     }
     useEffect(() => {
         getPosts()
     }, [])
-
-    const loadMore = async () => {
-        if (posts.length > 1) {
-            const res = await fetch(process.env.REACT_APP_URL + 'post/loadmore', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Token ${token}`
-                },
-                body: JSON.stringify({
-                    "last_post": posts[posts.length - 1].post_id
-                })
-            })
-            if (res.ok) {
-                const data = await res.json();
-                setPosts(posts.concat(data.posts))
-                console.log('load more success', data)
-            } else { console.log('load more failed') }
-        }
-    }
 
     return (
         <>
@@ -139,42 +116,26 @@ export default function Newfeed(props) {
                         </Accordion>
                     </div>
                 </div>
-                <div className="px-0 m-0 row" id="refresh">
+                {loading ? <div className="px-0 m-0 row" id="refresh">
                     <button onClick={() => getPosts()} type="button" class="btn btn-outline-info btn-lg btn-block">
-                        {loading ? <FadeLoader
+                        <FadeLoader
                             css={override}
                             sizeUnit={"px"}
-                            size={6}
-                            color={'white'}
-                        /> : <i class="fas fa-sync-alt mr-2"></i>}
-                    </button>
-                </div>
-                {/* List post*/}
-                <InfiniteScroll
-                    dataLength={posts.length}
-                    next={loadMore}
-                    hasMore={true}
-                    loader={
-                        <div className='mb-4 mt-4 d-flex justify-content-center flex-row'>
-                            <BeatLoader
-                                css={override}
-                                sizeUnit={"px"}
-                                size={18}
-                                color={'#17a2b8'}
-                            />
-                        </div>}
-                >
-                    {posts && posts.map((post) => {
-                        return <Post
-                            key={post.post_id}
-                            post={post}
-                            token={token}
-                            getPosts={getPosts}
-                            currentUser={props.currentUser}
+                            size={10}
+                            color={'#17a2b8'}
                         />
-                    })}
-                </InfiniteScroll>
-
+                    </button>
+                </div> : ""}
+                {/* List post*/}
+                {posts && posts.map((post) => {
+                    return <Post 
+                        key = {post.post_id}
+                        post={post} 
+                        token={token}
+                        getPosts={getPosts}
+                        currentUser={props.currentUser}
+                        />
+                })}
             </div>
         </>
     )

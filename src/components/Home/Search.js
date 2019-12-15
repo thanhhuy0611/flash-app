@@ -12,6 +12,13 @@ import {
 } from "react-router-dom";
 import Post from '../Post'
 
+import { FadeLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
 export default function Search(props) {
     const { key } = useParams()
     const history = useHistory()
@@ -19,7 +26,8 @@ export default function Search(props) {
     const [content, setContent] = useState('')
     const [imageUrl, setImageUrl] = useState(null)
     const [posts, setPosts] = useState([])
-    
+    const [loading, setLoading] = useState(false)
+
     const doPost = async (e) => {
         const res = await fetch(process.env.REACT_APP_URL + 'createpost', {
             method: 'POST',
@@ -42,39 +50,43 @@ export default function Search(props) {
     }
 
     const getPosts = async () => {
+        setLoading(true)
         const res = await fetch(process.env.REACT_APP_URL + 'postlist', {
-            method:"POST",
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
             },
             body: JSON.stringify({
-                "post_id":"list",
-                "user_id":null
+                "post_id": "list",
+                "user_id": null
             })
         })
         if (res.ok) {
             const data = await res.json();
             setPosts(data.posts)
             history.push('/')
-            console.log('success',data)
-        } else { console.log('failed to get postlist')}
+            console.log('success', data)
+            setLoading(false)
+        } else { console.log('failed to get postlist') }
     }
     // list posts
-    const doSearch = async()=>{
-        const res = await fetch(process.env.REACT_APP_URL + 'search',{
-            method:"POST",
-            headers:{
+    const doSearch = async () => {
+        setLoading(true)
+        const res = await fetch(process.env.REACT_APP_URL + 'search', {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
             },
-            body: JSON.stringify({"key":key})
+            body: JSON.stringify({ "key": key })
         })
         const data = await res.json()
         if (data.success) {
             setPosts(data.posts)
-            console.log('success',data)
-        } 
+            console.log('success', data)
+            setLoading(false)
+        }
         else console.log('failed search')
     }
 
@@ -128,16 +140,25 @@ export default function Search(props) {
                         </Accordion>
                     </div>
                 </div>
-                <div className="px-0 m-0" id="refresh" />
+                {loading ? <div className="px-0 m-0 row" id="refresh">
+                    <button onClick={() => getPosts()} type="button" class="btn btn-outline-info btn-lg btn-block">
+                        <FadeLoader
+                            css={override}
+                            sizeUnit={"px"}
+                            size={10}
+                            color={'#17a2b8'}
+                        />
+                    </button>
+                </div> : ""}
                 {/* List post*/}
                 {posts && posts.map((post) => {
-                    return <Post 
-                        key = {post.post_id}
-                        post={post} 
+                    return <Post
+                        key={post.post_id}
+                        post={post}
                         token={token}
                         getPosts={getPosts}
                         currentUser={props.currentUser}
-                        />
+                    />
                 })}
             </div>
         </>

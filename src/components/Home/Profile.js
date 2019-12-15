@@ -6,8 +6,16 @@ import {
     useParams,
     useHistory
 } from "react-router-dom";
-
 import Post from '../Post'
+
+import { FadeLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
+
 export default function Profile(props) {
     const token = sessionStorage.getItem("token")
     const [posts, setPosts] = useState([])
@@ -15,6 +23,7 @@ export default function Profile(props) {
     const history = useHistory()
     const [user, setUser] = useState(null)
     const [followed, setFollowed] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const checkFollowed = () => {
         if (props.currentUser && user) {
@@ -61,6 +70,7 @@ export default function Profile(props) {
 
     // list posts
     const getPosts = async () => {
+        setLoading(true)
         const res = await fetch(process.env.REACT_APP_URL + 'postlist', {
             method: "POST",
             headers: {
@@ -76,6 +86,7 @@ export default function Profile(props) {
             const data = await res.json();
             setPosts(data.posts)
             console.log('success', data)
+            setLoading(false)
         } else { console.log('failed to get postlist') }
     }
     useEffect(() => {
@@ -92,6 +103,7 @@ export default function Profile(props) {
                     </div>
                     <div className="col-7 col-md-8" />
                 </div>
+                
                 <div id="banner" className="row mx-0 mb-4 shadow-bottom">
                     <div id="avatarProfile" >
                         <img src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="avatar" />
@@ -172,7 +184,16 @@ export default function Profile(props) {
                         </div>
                     </div>
                 </div>
-                <div className="px-0 m-0" id="refresh" />
+                {loading ? <div className="px-0 m-0 row" id="refresh">
+                    <button onClick={() => getPosts()} type="button" class="btn btn-outline-info btn-lg btn-block">
+                        <FadeLoader
+                            css={override}
+                            sizeUnit={"px"}
+                            size={10}
+                            color={'#17a2b8'}
+                        />
+                    </button>
+                </div> : ""}
                 {/* List post*/}
                 {posts && posts.map((post) => {
                     return <Post

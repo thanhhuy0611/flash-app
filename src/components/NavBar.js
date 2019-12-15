@@ -36,14 +36,14 @@ export default function NavBar(props) {
     return (
         <div>
             <Navbar expand="lg" id="navbar">
-                <Navbar.Brand href="#home" ><i className="fas fa-bolt brand"></i></Navbar.Brand>
+                <Navbar.Brand href="#home" onClick={(e) => {e.preventDefault();history.push(`/`)}} ><i className="fas fa-bolt brand"></i></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Form inline onSubmit={(e) => {e.preventDefault();history.push(`/search/${input}`)}}>
                             <InputGroup>
                                 <FormControl
-                                    placeholder="Search user name"
+                                    placeholder="Search"
                                     aria-label="Recipient's username"
                                     aria-describedby="basic-addon2"
                                     id="searchInput"
@@ -56,9 +56,9 @@ export default function NavBar(props) {
                         </Form>
                     </Nav>
                     <Form inline>
-                        <Nav.Link href="#home">{props.currentUser && props.currentUser.user_name}</Nav.Link>
+                        <Nav.Link href="#home" onClick={(e) => {e.preventDefault();history.push(`/user/${props.currentUser && props.currentUser.user_id}`)}}>{props.currentUser && props.currentUser.user_name}</Nav.Link>
                         <Nav.Link href="#" onClick={()=>doLogout()}>Logout</Nav.Link>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                        <NavDropdown title="Setting" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>

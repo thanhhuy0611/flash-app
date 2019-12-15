@@ -1,9 +1,13 @@
 import React from 'react'
 import '../../static/Home.css'
+import ScrollUpButton from "react-scroll-up-button";
+
 
 import Newfeed from './Newfeed'
 import Profile from './Profile'
+import PostFollowing from './PostFollowing'
 import Search from './Search'
+import Weather from '../Weather'
 
 //import router
 import {
@@ -11,12 +15,15 @@ import {
     Switch,
     Route,
     useHistory
-  } from "react-router-dom";
+} from "react-router-dom";
 
 export default function Home(props) {
     const history = useHistory()
     return (
         <>
+            <div>
+                <ScrollUpButton />
+            </div>
             <main className="container-fluid main">
                 <div className="row">
                     {/* leftside */}
@@ -28,25 +35,25 @@ export default function Home(props) {
                         <div className=" border-0">
                             <div className="card-body">
                                 <h5 className="card-title mb-4">
-                                    <a href="/" onClick={(e) => {e.preventDefault();history.push('/')}}>
-                                        <i  className="fas fa-home" />&nbsp; Home
+                                    <a href="/" onClick={(e) => { e.preventDefault(); history.push('/') }}>
+                                        <i className="fas fa-home" />&nbsp; Home
                                     </a>
                                 </h5>
                                 <h5 className="card-title mb-4">
-                                <a href="/" onClick={(e) => {e.preventDefault();history.push(`/user/${props.currentUser && props.currentUser.user_id}`)}}>
-                                <i className="fas fa-user-circle" />&nbsp; Profile
+                                    <a href="/" onClick={(e) => { e.preventDefault(); history.push(`/user/${props.currentUser && props.currentUser.user_id}`) }}>
+                                        <i className="fas fa-user-circle" />&nbsp; Profile
                                     </a>
                                 </h5>
                                 <h5 className="card-title mb-4">
-                                <a href="/" onClick={(e) => {e.preventDefault();history.push(`/user/${props.currentUser && props.currentUser.user_id}`)}}>
-                                <i className="far fa-list-alt" />&nbsp; Posts reacted
+                                    <a href="/" onClick={(e) => { e.preventDefault(); history.push(`/post/following`) }}>
+                                        <i className="far fa-list-alt" />&nbsp; From following
                                     </a>
                                 </h5>
-                                <h5 className="card-title mb-4"><i className="fas fa-hashtag" />&nbsp; Explore</h5>
+                                {/* <h5 className="card-title mb-4"><i className="fas fa-hashtag" />&nbsp; Explore</h5>
                                 <h5 className="card-title mb-4"><i className="far fa-bell" />&nbsp; Notification</h5>
                                 <h5 className="card-title mb-4"><i className="far fa-envelope" />&nbsp; Messages</h5>
                                 <h5 className="card-title mb-4"><i className="far fa-bookmark" />&nbsp; Bookmarks</h5>
-                                <h5 className="card-title mb-4"><i className="fas fa-info-circle" />&nbsp; More</h5>
+                                <h5 className="card-title mb-4"><i className="fas fa-info-circle" />&nbsp; More</h5> */}
                             </div>
                         </div>
                     </div>
@@ -61,42 +68,39 @@ export default function Home(props) {
                             />}
                         />
                         <Route
-                             path='/user/:user_id'
+                            path='/user/:user_id'
                             render={() => <Profile
                                 currentUser={props.currentUser}
                             />}
                         />
                         <Route
-                             path='/search/:key'
+                            path='/post/following'
+                            render={() => <PostFollowing
+                                currentUser={props.currentUser}
+                            />}
+                        />
+                        <Route
+                            path='/search/:key'
                             render={() => <Search
                                 currentUser={props.currentUser}
                             />}
                         />
                     </Switch>
-       
+
                     {/* rightside */}
                     <div id="rightSideMenu" className="col-lg-3">
-                        <div className="trend list-group list-group-flush font-weight-bold">
-                            <li className="h4 border-bottom">Who to follow</li>
-                            <li className="myLi"><img src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="Avatar" width={35} height="auto" /><span>&nbsp; Huy <small>• 3M followers</small></span><button type="button" className="btn-outline-primary myBtn">Follow</button></li>
-                            <li className="myLi"><img src="https://i.ya-webdesign.com/images/icon-circle-png-6.png" alt="Avatar" width={35} height="auto" /><span>&nbsp; Khoa <small>• 1M followers</small></span><button type="button" className="btn-outline-primary myBtn rounded-pill">Follow</button></li>
-                            <li className="myLi mt-3"><a href="#">Show more</a></li>
+                        <div>
+                            <Weather />
                         </div>
-                        <div className="rightFooter">
-                            <div className="firstLine">
-                                <ul className="ulFoot">
-                                    <li><a href="#">Terms</a></li>
-                                    <li><a href="#">Privacy policy</a></li>
-                                    <li><a href="#">Cookies</a></li>
-                                    <li><a href="#">Ads info</a></li>
-                                </ul>
-                            </div>
-                            <div className="secondLine">
-                                <ul className="ulFoot">
-                                    <li><a href="#">More</a></li>
-                                    <li><i className="far fa-copyright" />2019 Flash, Inc.</li>
-                                </ul>
-                            </div>
+                        <div>
+                            <ul className="ulFoot rightFooter">
+                                <li><a href="#">Terms</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Cookies</a></li>
+                                <li><a href="#">Ads info</a></li>
+                                <li><a href="#">More</a></li>
+                                <li><i className="far fa-copyright" />2019 Flash, Inc.</li>
+                            </ul>
                         </div>
                     </div>
                     <div className="col-lg-0 col-xl-1 placeHolder" />
