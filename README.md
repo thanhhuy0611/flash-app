@@ -1,27 +1,27 @@
 # Project Brief: `Flash`
 
-Flash is a site same as Facebook.  
+Flash is a social network.  
 
 
 ### Key Features and Technical Implementation Plan
 
 * User authentication:   
-	* User can create account  
+	* User can create account, login  
 	* User can login by Facebook account  
-	* User can recover password by email
+	* User can recover password by email  
 	  
-	
 
 * Post:   
 	* User can see all post on newfeed    
-    * User can see a specific post  
-	* User can create, edit, delete their posts
-	* User can like, comment posts of other users  
-
+    * User can choice to just only see posts from whom they are following.    
+	* User can create, edit, delete their posts  
+	* User can like, comment posts of other users   
+	* User can search posts by content of post       
 
 * User profile:   
 	* User can see all of their posts on dashboard    
-    * User can edit their information (name, avatar, banner,...)    
+	* User can follow, unfollow other user  
+    * User can see information of follower, following by click on.    
     
 
 ### Landing Page

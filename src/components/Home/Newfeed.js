@@ -117,8 +117,8 @@ export default function Newfeed(props) {
                                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
                                         <i className="far fa-image" />
                                     </Accordion.Toggle>
-                                    <i className="fas fa-paperclip" />
-                                    <i className="far fa-smile" />
+                                    <i className="fas fa-paperclip text-secondary" />
+                                    <i className="far fa-smile text-secondary" />
                                 </div>
                                 <div id="postButton" className="col">
                                     <span id="remainingChars">{130 - content.length >= 0 ? `${130 - content.length} characters remaining` : <span className='text-danger'>No more than 130 characters</span>}</span>

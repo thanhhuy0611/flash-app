@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 export default function Login(props) {
     const [input, setInput] = useState({})
+    const [status, setStatus] = useState('')
     const handleOnchange = (e) => {
         const name = e.target.name
         const value = e.target.value
@@ -20,10 +21,14 @@ export default function Login(props) {
         })
         const data = await res.json()
         if (data.success) {
+            setStatus("")
             sessionStorage.setItem('token', data.token)
             props.setIsLogin(true)
         }
-        else console.log(data)
+        else {
+            console.log(data)
+            setStatus(data.status)
+        }
     }
 
 
@@ -33,14 +38,16 @@ export default function Login(props) {
                 <h3>Sign In</h3>
                 <div className="form-group">
                     <label>Email address</label>
-                    <input name='email' onChange={(e) => handleOnchange(e)} type="email" className="form-control" placeholder="Enter email" />
+                    <input required name='email' onChange={(e) => handleOnchange(e)} type="email" className="form-control" placeholder="Enter email" />
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input name='password' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Enter password" />
+                    <input required name='password' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Enter password" />
                 </div>
-
+                <p className={`mb-4 forgot-password text-center text-danger`}>
+                    {status}
+                </p>
                 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
                 <button className="mt-2 btn btn-primary btn-block" onClick={()=>window.location.replace(process.env.REACT_APP_URL +'login/facebook')}>Login with Facebook</button>
                 <p className="forgot-password text-right">

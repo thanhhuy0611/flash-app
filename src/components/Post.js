@@ -241,7 +241,7 @@ export default function Post(props) {
                                     <i className="far fa-comment-alt mr-1"></i> Comment
                                 </button>
                             </Accordion.Toggle>
-                            <button className="btn btn-outline-light text-secondary font-weight-bold">
+                            <button className="btn btn-outline-light text-secondary font-weight-bold" disabled>
                                 <i className="far fa-share-square mr-1"></i> Share
                             </button>
                         </div>

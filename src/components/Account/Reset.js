@@ -45,12 +45,12 @@ export default function Login(props) {
                 <h3>Reset password</h3>
                 <div className="form-group">
                     <label>New password</label>
-                    <input name='password' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Enter new password" />
+                    <input required name='password' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Enter new password" />
                 </div>
 
                 <div className="form-group">
                     <label>Confirm password</label>
-                    <input name='confirm' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Confirm password" />
+                    <input required name='confirm' onChange={e => handleOnchange(e)} type="password" className="form-control" placeholder="Confirm password" />
                 </div>
                 <p className={`mb-4 forgot-password text-center text-danger`}>
                     {status}
